@@ -31,6 +31,9 @@ public class ChatMessageEntity {
     @Column(name = "recepient_id", nullable = false)
     private UUID recipientId;
 
+    @Column(name = "branch_id", nullable = false)
+    private UUID branchId;
+
     @Column(columnDefinition = "jsonb")
     @JdbcTypeCode(SqlTypes.JSON)
     private Map<String, Object> content;

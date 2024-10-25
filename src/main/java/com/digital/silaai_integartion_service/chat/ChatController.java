@@ -1,5 +1,6 @@
 package com.digital.silaai_integartion_service.chat;
 
+import com.digital.silaai_integartion_service.chat.responses.GetChatMessageResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -16,15 +17,15 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class ChatController {
 
-    private static final String CHAT_HISTORY = "/{userId}";
+    private static final String CHAT_HISTORY = "/{branchId}";
 
     private final ChatHistoryService chatHistoryService;
 
     @GetMapping(value = CHAT_HISTORY,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public ResponseEntity<List<GetChatMessageResponse>> fetchChatHistory(@PathVariable("userId") UUID userId){
-        List<GetChatMessageResponse> chatHistoryList = chatHistoryService.getChatHistoryByUserId(userId);
+    public ResponseEntity<List<GetChatMessageResponse>> fetchChatHistory(@PathVariable("branchId") UUID branchId){
+        List<GetChatMessageResponse> chatHistoryList = chatHistoryService.getChatHistoryByBranchId(branchId);
         return ResponseEntity.ok(chatHistoryList);
     }
 }

@@ -2,6 +2,7 @@ package com.digital.silaai_integartion_service.security;
 
 import com.digital.silaai_integartion_service.storage.entities.UserEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Getter;
 import org.springframework.lang.NonNull;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -10,11 +11,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 public class UserDetailsImpl implements UserDetails {
     private static final long serialVersionUID = 1L;
 
-    private String id;
+    @Getter
+    private UUID id;
 
     private String username;
 
@@ -23,7 +26,7 @@ public class UserDetailsImpl implements UserDetails {
 
     private Collection<? extends GrantedAuthority> authorities;
 
-    public UserDetailsImpl(String id, String username, String password,
+    public UserDetailsImpl(UUID id, String username, String password,
                            Collection<? extends GrantedAuthority> authorities) {
         this.id = id;
         this.username = username;
@@ -37,7 +40,7 @@ public class UserDetailsImpl implements UserDetails {
         );
 
         return new UserDetailsImpl(
-                user.getId().toString(),
+                user.getId(),
                 user.getUsername(),
                 user.getPassword(),
                 authorities
@@ -47,10 +50,6 @@ public class UserDetailsImpl implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return authorities;
-    }
-
-    public String getId() {
-        return id;
     }
 
     @Override

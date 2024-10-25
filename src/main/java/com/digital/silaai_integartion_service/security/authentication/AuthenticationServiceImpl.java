@@ -58,7 +58,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         ResponseCookie jwtRefreshCookie = jwtUtils.generateRefreshJwtCookie(refreshToken.refreshToken());
 
         SignInResponse signInResponse = SignInResponse.builder()
-                                                      .id(userDetails.getId())
+                                                      .id(userDetails.getId().toString())
                                                       .username(userDetails.getUsername())
                                                       .roles(roles)
                                                       .build();

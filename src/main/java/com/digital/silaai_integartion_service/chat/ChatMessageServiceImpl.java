@@ -1,6 +1,6 @@
 package com.digital.silaai_integartion_service.chat;
 
-import com.digital.silaai_integartion_service.chatbot.NewUserMessageRequest;
+import com.digital.silaai_integartion_service.chatbot.requests.NewDefaultUserMessageRequest;
 import com.digital.silaai_integartion_service.clients.llm.NewLlmResponse;
 import com.digital.silaai_integartion_service.storage.entities.ChatMessageEntity;
 import com.digital.silaai_integartion_service.storage.repositories.ChatMessageRepository;
@@ -23,17 +23,19 @@ public class ChatMessageServiceImpl implements ChatMessageService {
 
     @Override
     @Transactional
-    public void saveQuestionAndAnswer(@Nonnull NewUserMessageRequest newUserMessageRequest, @Nonnull NewLlmResponse newLlmResponse) {
+    public void saveQuestionAndAnswer(@Nonnull UUID userId, @Nonnull NewDefaultUserMessageRequest newDefaultUserMessageRequest, @Nonnull NewLlmResponse newLlmResponse) {
         ChatMessageEntity newUserMessageEntity = ChatMessageEntity.builder()
                                                                   .id(timeBasedEpochRandomGenerator.generate())
-                                                                  .senderId(newUserMessageRequest.userId())
+                                                                  .senderId(userId)
                                                                   .recipientId(UUID.fromString("silaAi"))
-                                                                  .content(Map.of("content", newUserMessageRequest.content()))
+                                                                  .branchId(newDefaultUserMessageRequest.branchId())
+                                                                  .content(Map.of("content", newDefaultUserMessageRequest.content()))
                                                                   .build();
         ChatMessageEntity newChatBotMessageEntity = ChatMessageEntity.builder()
                                                                      .id(timeBasedEpochRandomGenerator.generate())
                                                                      .senderId(UUID.fromString("silaAi"))
-                                                                     .recipientId(newUserMessageRequest.userId())
+                                                                     .recipientId(userId)
+                                                                     .branchId(newDefaultUserMessageRequest.branchId())
                                                                      .content(Map.of("content", newLlmResponse.content()))
                                                                      .build();
         chatMessageRepository.saveAll(List.of(newUserMessageEntity, newChatBotMessageEntity));

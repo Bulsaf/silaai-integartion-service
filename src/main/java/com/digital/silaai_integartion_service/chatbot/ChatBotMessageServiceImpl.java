@@ -1,6 +1,8 @@
 package com.digital.silaai_integartion_service.chatbot;
 
 import com.digital.silaai_integartion_service.chat.ChatMessageService;
+import com.digital.silaai_integartion_service.chatbot.requests.NewDefaultUserMessageRequest;
+import com.digital.silaai_integartion_service.chatbot.responses.ChatBotMessageResponse;
 import com.digital.silaai_integartion_service.clients.llm.LlmService;
 import com.digital.silaai_integartion_service.clients.llm.NewLlmResponse;
 import com.digital.silaai_integartion_service.clients.speechkit.SpeechKitResponse;
@@ -11,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.Base64;
+import java.util.UUID;
 
 @Slf4j
 @Service
@@ -24,12 +27,15 @@ public class ChatBotMessageServiceImpl implements ChatBotMessageService {
 
     @Nonnull
     @Override
-    public ChatBotMessageResponse createTextAnswer(NewUserMessageRequest newUserMessageRequest) {
+    public ChatBotMessageResponse createTextAnswer(
+            @Nonnull NewDefaultUserMessageRequest newDefaultUserMessageRequest,
+            @Nonnull UUID userId
+    ) {
         NewLlmResponse newLlmResponse = llmService.getResponse(
-                newUserMessageRequest.userId().toString(),
-                newUserMessageRequest.content()
+                userId.toString(),
+                newDefaultUserMessageRequest.content()
         );
-        chatMessageService.saveQuestionAndAnswer(newUserMessageRequest, newLlmResponse);
+        chatMessageService.saveQuestionAndAnswer(, newDefaultUserMessageRequest, newLlmResponse);
         return ChatBotMessageResponse.builder()
                                      .content(newLlmResponse.content())
                                      .build();
@@ -37,19 +43,22 @@ public class ChatBotMessageServiceImpl implements ChatBotMessageService {
 
     @Nonnull
     @Override
-    public ChatBotMessageResponse createAudioAnswer(NewUserMessageRequest newUserMessageRequest) {
-        String message = recognisedMessageFromRequest(newUserMessageRequest);
+    public ChatBotMessageResponse createAudioAnswer(
+            @Nonnull NewDefaultUserMessageRequest newDefaultUserMessageRequest,
+            @Nonnull UUID userId
+    ) {
+        String message = recognisedMessageFromRequest(newDefaultUserMessageRequest);
         NewLlmResponse newLlmResponse = llmService.getResponse(
-                newUserMessageRequest.userId().toString(),
+                userId.toString(),
                 message
         );
-        chatMessageService.saveQuestionAndAnswer(newUserMessageRequest, newLlmResponse);
+        chatMessageService.saveQuestionAndAnswer(, newDefaultUserMessageRequest, newLlmResponse);
         return ChatBotMessageResponse.builder()
                                      .content(newLlmResponse.content())
                                      .build();
     }
 
-    private String recognisedMessageFromRequest(NewUserMessageRequest userMessageRequest) {
+    private String recognisedMessageFromRequest(NewDefaultUserMessageRequest userMessageRequest) {
         log.info(userMessageRequest.content());
         byte[] audioMessageFromBase64 = Base64.getMimeDecoder()
                                               .decode(userMessageRequest.content());

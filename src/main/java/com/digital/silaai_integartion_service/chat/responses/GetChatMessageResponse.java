@@ -1,4 +1,4 @@
-package com.digital.silaai_integartion_service.chat;
+package com.digital.silaai_integartion_service.chat.responses;
 
 import jakarta.annotation.Nonnull;
 import lombok.Builder;
