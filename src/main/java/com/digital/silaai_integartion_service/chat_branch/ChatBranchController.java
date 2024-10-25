@@ -1,6 +1,6 @@
 package com.digital.silaai_integartion_service.chat_branch;
 
-import com.digital.silaai_integartion_service.chat_branch.responses.GetChatBranchResponse;
+import com.digital.silaai_integartion_service.chat_branch.responses.GetChatBranchInfoResponse;
 import com.digital.silaai_integartion_service.chat_branch.responses.NewChatBranchResponse;
 import com.digital.silaai_integartion_service.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
@@ -24,9 +24,10 @@ public class ChatBranchController {
     private final ChatBranchService chatBranchService;
 
     @GetMapping(value = LAST_BRANCHES)
-    public ResponseEntity<List<GetChatBranchResponse>> fetchLastFiveBranches(@AuthenticationPrincipal UserDetailsImpl userDetails) {
-
-        return ResponseEntity.ok(List.of());
+    public ResponseEntity<List<GetChatBranchInfoResponse>> fetchLastFiveBranches(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+        List<GetChatBranchInfoResponse> chatBranchInfoResponses =  chatBranchService.getUserLastBranches(userDetails.getId());
+        return ResponseEntity.ok()
+                             .body(chatBranchInfoResponses);
     }
 
     @PostMapping(
@@ -35,6 +36,6 @@ public class ChatBranchController {
     public ResponseEntity<NewChatBranchResponse> createNewBranch(@AuthenticationPrincipal UserDetailsImpl userDetails) {
         NewChatBranchResponse newChatBranch = chatBranchService.createBranch(userDetails.getId());
         return ResponseEntity.ok()
-                             .build();
+                             .body(newChatBranch);
     }
 }

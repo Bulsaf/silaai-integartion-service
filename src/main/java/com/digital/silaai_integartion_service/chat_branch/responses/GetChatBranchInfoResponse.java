@@ -5,7 +5,7 @@ import lombok.Builder;
 import java.util.UUID;
 
 @Builder
-public record GetChatBranchResponse(
+public record GetChatBranchInfoResponse(
         UUID branchId,
         String lastQuestion
 ) {

@@ -35,7 +35,7 @@ public class ChatBotMessageServiceImpl implements ChatBotMessageService {
                 userId.toString(),
                 newDefaultUserMessageRequest.content()
         );
-        chatMessageService.saveQuestionAndAnswer(, newDefaultUserMessageRequest, newLlmResponse);
+        chatMessageService.saveQuestionAndAnswer(userId, newDefaultUserMessageRequest, newLlmResponse);
         return ChatBotMessageResponse.builder()
                                      .content(newLlmResponse.content())
                                      .build();
@@ -52,7 +52,7 @@ public class ChatBotMessageServiceImpl implements ChatBotMessageService {
                 userId.toString(),
                 message
         );
-        chatMessageService.saveQuestionAndAnswer(, newDefaultUserMessageRequest, newLlmResponse);
+        chatMessageService.saveQuestionAndAnswer(userId, newDefaultUserMessageRequest, newLlmResponse);
         return ChatBotMessageResponse.builder()
                                      .content(newLlmResponse.content())
                                      .build();
