@@ -11,12 +11,11 @@ import org.springframework.stereotype.Controller;
 public class ChatBotMessageController {
 
     private final SimpMessagingTemplate messagingTemplate;
+    private final ChatMessageService chatMessageService;
 
-    @MessageMapping("/chat/text")
+    @MessageMapping("/chat.text")
     public void processTextMessage(@Payload final NewUserMessageRequest userMessageRequest) {
-        ChatBotMessageResponse chatBotMessageResponse = new ChatBotMessageResponse(
-                "sdfds"
-        );
+        ChatBotMessageResponse chatBotMessageResponse = chatMessageService.createTextAnswer(userMessageRequest);
         messagingTemplate.convertAndSendToUser(
                 userMessageRequest.userId().toString(),
                 "/queue/messages",
@@ -24,11 +23,9 @@ public class ChatBotMessageController {
         );
     }
 
-    @MessageMapping("/chat/audio")
+    @MessageMapping("/chat.audio")
     public void processAudioMessage(@Payload final NewUserMessageRequest userMessageRequest) {
-        ChatBotMessageResponse chatBotMessageResponse = new ChatBotMessageResponse(
-                "sdfds"
-        );
+        ChatBotMessageResponse chatBotMessageResponse = chatMessageService.createAudioAnswer(userMessageRequest);
         messagingTemplate.convertAndSendToUser(
                 userMessageRequest.userId().toString(),
                 "/queue/messages",

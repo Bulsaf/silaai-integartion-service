@@ -1,13 +1,14 @@
 package com.digital.silaai_integartion_service.clients.llm;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.annotation.Nonnull;
 import lombok.Builder;
 
 @Builder
 public record LlmMessageRequest (
         @JsonProperty("user_id")
-        String userId,
+        @Nonnull String userId,
         @JsonProperty("user_input")
-        String userInput
+        @Nonnull String userInput
 ) {
 }

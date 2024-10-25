@@ -1,12 +1,14 @@
 package com.digital.silaai_integartion_service.chat;
 
+import jakarta.annotation.Nonnull;
 import lombok.Builder;
 
+import java.util.Map;
 import java.util.UUID;
 
 @Builder
 public record GetChatMessageResponse(
-        UUID senderId,
-        String message
+        @Nonnull UUID senderId,
+        @Nonnull Map<String, Object> message
 ) {
 }

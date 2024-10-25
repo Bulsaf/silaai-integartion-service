@@ -12,9 +12,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class UserUUIDController {
 
+    private final UserService userService;
+
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<GetUserUUIDResponse> fetchUserUUID() {
+        GetUserUUIDResponse newUserUUID = userService.createUserUUID();
         return ResponseEntity.ok()
-                             .build();
+                             .body(newUserUUID);
     }
 }
