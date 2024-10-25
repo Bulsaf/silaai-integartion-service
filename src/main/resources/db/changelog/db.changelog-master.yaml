@@ -1,0 +1,6 @@
+databaseChangeLog:
+  - include:
+      author: 'postgres'
+      id: '1'
+      relativeToChangelogFile: false
+      file: 'db/changelog/V1_1__create-schemas.sql'
