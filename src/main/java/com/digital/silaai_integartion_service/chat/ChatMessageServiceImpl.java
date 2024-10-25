@@ -8,6 +8,7 @@ import com.fasterxml.uuid.impl.TimeBasedEpochRandomGenerator;
 import jakarta.annotation.Nonnull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
@@ -21,6 +22,7 @@ public class ChatMessageServiceImpl implements ChatMessageService {
     private final TimeBasedEpochRandomGenerator timeBasedEpochRandomGenerator;
 
     @Override
+    @Transactional
     public void saveQuestionAndAnswer(@Nonnull NewUserMessageRequest newUserMessageRequest, @Nonnull NewLlmResponse newLlmResponse) {
         ChatMessageEntity newUserMessageEntity = ChatMessageEntity.builder()
                                                                   .id(timeBasedEpochRandomGenerator.generate())

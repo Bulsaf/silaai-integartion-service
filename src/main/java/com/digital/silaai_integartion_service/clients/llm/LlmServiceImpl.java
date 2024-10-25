@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 
 import java.net.URI;
+import java.util.LinkedHashMap;
 
 @Slf4j
 @Service
@@ -29,13 +30,13 @@ public class LlmServiceImpl implements LlmService {
                 .userId(userId)
                 .userInput(request)
                 .build();
-        ResponseEntity<NewLlmResponse> response = restClient.post()
+        ResponseEntity<LinkedHashMap> response = restClient.post()
                 .uri(aiChatGenerateUri)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .body(aiMessageRequest)
                 .retrieve()
-                .toEntity(NewLlmResponse.class);
+                .toEntity(LinkedHashMap.class);
 
         if (response.getStatusCode() != HttpStatusCode.valueOf(200) || response.getBody() == null) {
             log.warn(response.toString());
@@ -43,6 +44,8 @@ public class LlmServiceImpl implements LlmService {
         }
         log.info(response.toString());
 
-        return response.getBody();
+        return NewLlmResponse.builder()
+                .content(response.getBody())
+                .build();
     }
 }
