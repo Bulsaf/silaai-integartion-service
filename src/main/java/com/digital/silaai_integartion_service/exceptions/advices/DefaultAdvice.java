@@ -1,8 +1,8 @@
 package com.digital.silaai_integartion_service.exceptions.advices;
 
-import com.mik.backend.api.v1.exceptions.BadRequestException;
-import com.mik.backend.api.v1.exceptions.NotFoundException;
-import com.mik.backend.api.v1.exceptions.error_messages.DefaultErrorMessage;
+import com.digital.silaai_integartion_service.exceptions.BadRequestException;
+import com.digital.silaai_integartion_service.exceptions.NotFoundException;
+import com.digital.silaai_integartion_service.exceptions.error_messages.DefaultErrorMessage;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
