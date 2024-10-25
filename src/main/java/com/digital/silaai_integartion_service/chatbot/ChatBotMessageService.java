@@ -2,7 +2,7 @@ package com.digital.silaai_integartion_service.chatbot;
 
 import jakarta.annotation.Nonnull;
 
-public interface ChatMessageService {
+public interface ChatBotMessageService {
 
     @Nonnull
     ChatBotMessageResponse createTextAnswer(NewUserMessageRequest newUserMessageRequest);

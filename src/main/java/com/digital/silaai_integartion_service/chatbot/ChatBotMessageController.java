@@ -11,7 +11,7 @@ import org.springframework.stereotype.Controller;
 public class ChatBotMessageController {
 
     private final SimpMessagingTemplate messagingTemplate;
-    private final ChatMessageService chatMessageService;
+    private final ChatBotMessageService chatMessageService;
 
     @MessageMapping("/chat.text")
     public void processTextMessage(@Payload final NewUserMessageRequest userMessageRequest) {
